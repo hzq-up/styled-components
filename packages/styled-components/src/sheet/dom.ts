@@ -14,16 +14,20 @@ export const makeStyleTag = (target?: HTMLElement | undefined): HTMLStyleElement
   const head = document.head;
   const parent = target || head;
   const style = document.createElement('style');
+  // style 标签的插入位置
   const prevStyle = findLastStyleTag(parent);
   const nextSibling = prevStyle !== undefined ? prevStyle.nextSibling : null;
 
+  // 自定义属性 data-set
   style.setAttribute(SC_ATTR, SC_ATTR_ACTIVE);
   style.setAttribute(SC_ATTR_VERSION, SC_VERSION);
 
   const nonce = getNonce();
 
+  // 设置 style 标签的 nonce 属性：一种加密的随机数（一次使用的数字）
   if (nonce) style.setAttribute('nonce', nonce);
 
+  // 在父节点里的最后一个子节点的位置插入新的 style 节点
   parent.insertBefore(style, nextSibling);
 
   return style;
