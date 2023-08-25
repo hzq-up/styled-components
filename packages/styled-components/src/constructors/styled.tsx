@@ -4,6 +4,7 @@ import { WebTarget } from '../types';
 import domElements from '../utils/domElements';
 import constructWithOptions, { Styled } from './constructWithOptions';
 
+// 创建基础的 styled 方法
 const baseStyled = <Target extends WebTarget>(tag: Target) =>
   constructWithOptions<'web', Target>(createStyledComponent, tag);
 
@@ -11,7 +12,7 @@ const styled = baseStyled as typeof baseStyled & {
   [E in keyof JSX.IntrinsicElements]: Styled<'web', E, JSX.IntrinsicElements[E]>;
 };
 
-// Shorthands for all valid HTML Elements
+// 实现通过 styled[domElement] 和 styled(domElement) 都能创建样式化组件
 domElements.forEach(domElement => {
   styled[domElement] = baseStyled<typeof domElement>(domElement);
 });
