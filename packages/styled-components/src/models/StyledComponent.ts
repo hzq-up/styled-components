@@ -166,12 +166,14 @@ function useStyledComponentImpl<Props extends object>(
     }
   }
 
+  // 生成组件的类名
   const generatedClassName = useInjectedStyle(componentStyle, context);
 
   if (process.env.NODE_ENV !== 'production' && forwardedComponent.warnTooManyClasses) {
     forwardedComponent.warnTooManyClasses(generatedClassName);
   }
 
+  // 合并类名  依据 styledComponentId generatedClassName context.className 来生成唯一类名
   let classString = joinStrings(foldedComponentIds, styledComponentId);
   if (generatedClassName) {
     classString += ' ' + generatedClassName;
@@ -212,6 +214,7 @@ function createStyledComponent<
     displayName = generateDisplayName(target),
   } = options;
 
+  // 生成 styledComponentId
   const styledComponentId =
     options.displayName && options.componentId
       ? `${escape(options.displayName)}-${options.componentId}`
